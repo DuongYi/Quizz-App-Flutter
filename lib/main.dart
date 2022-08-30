@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
+
+import './question.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -8,9 +9,21 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
-  void answerQuestion() {
-    print('Answer chosen!');
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
+
+  void _answerQuestion() {
+    setState(() {
+      _questionIndex = (_questionIndex + 1) % 2;
+    });
+    print(_questionIndex);
   }
 
   @override
@@ -26,21 +39,20 @@ class MyApp extends StatelessWidget {
         ),
         body: Column(
           children: [
-            Text('The question!'),
-            ...questions.map((question) {
-              return Text(question);
-            }).toList(),
+            Question(questions[_questionIndex]),
             RaisedButton(
               child: Text('Answer 1'),
-              onPressed: answerQuestion,
+              onPressed: _answerQuestion,
             ),
             RaisedButton(
               child: Text('Answer 2'),
-              onPressed: answerQuestion,
+              onPressed: (() => print('Answer 2 chosen!')),
             ),
             RaisedButton(
               child: Text('Answer 3'),
-              onPressed: answerQuestion,
+              onPressed: (() {
+                print('Answer 3 chosen!');
+              }),
             ),
           ],
         ),
